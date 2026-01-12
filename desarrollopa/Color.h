@@ -14,9 +14,9 @@ public:
 		this->G = green;
 		this->B = blue;
 	}
-	inline float GetR() { return this->R; }
-	inline float GetG() { return this->G; }
-	inline float GetB() { return this->B; }
+	inline float GetR() const { return this->R; }
+	inline float GetG() const { return this->G; }
+	inline float GetB() const { return this->B; }
 
 	inline void SetRedComponent(float RToSet)
 	{

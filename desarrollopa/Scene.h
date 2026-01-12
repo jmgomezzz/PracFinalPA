@@ -38,6 +38,7 @@ public:
 	}
 
 	inline Vector3D GetBoundary() { return this->boundary; }
+	inline Camera* GetCamera() { return this->camara; } //Getter de la cámara
 
 	void AddGameObject(Solid* objeto);
 	void Render();

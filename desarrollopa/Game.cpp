@@ -34,6 +34,12 @@ void Game::Init() {
 	this->scenes.push_back(mainScene);
 	this->activeScene = mainScene;
 
+	//Configuración de cámara
+	Camera* cam = activeScene->GetCamera();
+	cam->SetCoordinates(Vector3D(0.0f, 5.0, 10.0f));    
+	cam->SetRot(Orientation(Vector3D(-10.0f, 0.0f, 0.0f))); // Rotación: inclinada hacia abajo
+
+
 	/*teapot.SetCoordinates(Vector3D(-1.6, 1.3, -3.0));
 	teapot.SetColor(Color(0.2f, 0.4f, 0.6f));
 	teapot.SetOrientationSpeed(Vector3D(1.0, 3.0, 0.0));
@@ -53,17 +59,13 @@ void Game::Init() {
 	loader->Clear();*/
 
 	ModelLoader* loader = new ModelLoader();
-	Model* roadModel = new Model();
-	loader->LoadModel("../modelos/c10.obj");
-	*roadModel = loader->GetModel();
-	roadModel->SetRot(Orientation(Vector3D(90.0f,0.0f,0.0f)));
-	loader->Clear(); // Limpiar después de cargar el modelo
+	// Mejor no metemos modelo de carretera <3
 	// Crear la carretera y asignarle el modelo
-	Road* carretera = new Road(roadModel);
-	carretera->SetLength(40.0f);  
-	carretera->SetSpeed(0.5f); 
-	// Agregar la carretera a la escena
+	Road* carretera = new Road(30, 5.0f, 8.0f, 15.0f);
+
 	activeScene->AddGameObject(carretera);
+
+
 
 }
 
