@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="Coordinate.cpp" />
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -146,13 +147,17 @@
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="Orientation.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="PlayerCar.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Teapot.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Toroid.cpp" />
+    <ClCompile Include="TrafficCar.cpp" />
+    <ClCompile Include="TrafficManager.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Vector3D.cpp" />
@@ -163,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Car.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Color.h" />
@@ -180,13 +186,17 @@
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Orientation.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="PlayerCar.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="Solid.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Teapot.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Toroid.h" />
+    <ClInclude Include="TrafficCar.h" />
+    <ClInclude Include="TrafficManager.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Vector3D.h" />

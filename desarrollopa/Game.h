@@ -12,6 +12,12 @@
 #include "Cylinder.h"
 #include "Road.h"
 
+// Sistema de carreras
+#include "PlayerCar.h"
+#include "TrafficCar.h"
+#include "TrafficManager.h"
+#include "ScoreManager.h"
+
 // El sistema de partículas
 #include "Emmiter.h"
 #include "EmmiterConfiguration.h"
@@ -21,6 +27,13 @@
 using namespace std::chrono;
 
 using namespace std;
+
+// Estados del juego
+enum class GameState {
+	MENU,
+	PLAYING,
+	GAME_OVER
+};
 
 class Game
 {
@@ -47,23 +60,40 @@ private:
 	std::chrono::milliseconds initialMilliseconds;
 	long lastUpdatedTime;
 
-	//Controles de movimiento (sobre objeto)
-	Model* player;
-	
+	// ===============================
+	// SISTEMA DE CARRERAS
+	// ===============================
+	GameState gameState;
+	PlayerCar* playerCar;
+	TrafficManager trafficManager;
+	ScoreManager scoreManager;
+	Road* road;
+
+	// Metodos privados del juego de carreras
+	void InitRacingGame();
+	void UpdateRacingGame(const float& time);
+	void RenderRacingGame();
+	void RenderHUD();
+	void RenderGameOver();
+	void HandleCollision();
 
 public:
 	//Control de periodo de actualización
-	const float TIME_INCREMENT = 0.4;
+	const float TIME_INCREMENT = 0.016f;  // ~60 FPS
 	const float UPDATE_PERIOD = 10;
 
-	Game() : emisores(), particulaBase(nullptr), activeScene(nullptr), initialMilliseconds(duration_cast<milliseconds>(system_clock::now().time_since_epoch())), lastUpdatedTime(0), player(nullptr){}
+	Game();
+	~Game();
 
 	void Init();
 	void Render();
 	void Update(const float& time, const Vector3D& gravity);
 	void ProcessKeyPressed(unsigned char key, int px, int py);
+	void ProcessKeyReleased(unsigned char key, int px, int py);  // Para detectar cuando se suelta
 	void ProcessMouseMovement(int x, int y);
 	void ProcessMouseClicked(int button, int state, int x, int y);
+
+	void RestartGame();
 };
 
 
