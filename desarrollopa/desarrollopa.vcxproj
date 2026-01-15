@@ -142,6 +142,7 @@
     <ClCompile Include="HighScoreManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialCar.cpp" />
     <ClCompile Include="MaterialModel.cpp" />
     <ClCompile Include="MaterialModelLoader.cpp" />
     <ClCompile Include="MaterialTriangle.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="HighScoreManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialCar.h" />
     <ClInclude Include="MaterialModel.h" />
     <ClInclude Include="MaterialModelLoader.h" />
     <ClInclude Include="MaterialTriangle.h" />

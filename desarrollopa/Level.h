@@ -15,7 +15,7 @@ private:
 	float rightLaneProb;     // Probabilidad carril derecho
 	float leftLaneProb;      // Probabilidad carril izquierdo
 	float trafficSpeed;      // Velocidad base del trafico
-	int scoreToNext;      // Puntos para pasar al siguiente nivel
+	int scoreToNext;         // Puntos para pasar al siguiente nivel
 
 public:
 	Level(int num = 1);

@@ -29,6 +29,13 @@ void MaterialModelLoader::loadMaterials(string fileName)
 }
 void MaterialModelLoader::LoadModel(const string& filePath)
 {
+	if (materialModel == nullptr)
+	{
+		materialModel = new MaterialModel(); // Crear un nuevo MaterialModel si no existe
+	}
+	else {
+		materialModel->Clear(); // Limpiar el modelo existente
+	}
 	try
 	{
 		ifstream objFile(filePath);

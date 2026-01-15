@@ -13,5 +13,7 @@ public:
 	void AddMaterialTriangle(MaterialTriangle triangle);
 	void Clear();
 	void Render();
+	Solid* Clone() override;
+	inline size_t GetTriangleCount() const { return this->triangles.size(); }
 };
 

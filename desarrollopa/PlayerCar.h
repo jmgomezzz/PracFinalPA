@@ -1,5 +1,5 @@
 #pragma once
-#include "Car.h"
+#include "MaterialCar.h"
 
 // Estados del adelantamiento
 // Controla toda la maniobra con un solo boton
@@ -10,9 +10,9 @@ enum class OvertakeState {
 	CHANGING_RIGHT		// Volviendo al carril derecho
 };
 
-// Coche del jugador
+// Coche del jugador con soporte para modelos con mtl
 // El jugador solo tiene que pulsar ESPACIO para adelantar
-class PlayerCar : public Car
+class PlayerCar : public MaterialCar
 {
 private:
 	float minSpeed;          // Velocidad base en carril derecho
@@ -28,7 +28,7 @@ private:
 	bool overtakeButtonPressed;  // Si el boton esta pulsado
 
 public:
-	PlayerCar() : Car() {
+	PlayerCar() : MaterialCar("modelos/") {
 		// Velocidades MUY diferenciadas para que se note
 		this->minSpeed = 10.0f;      // Velocidad base
 		this->maxSpeed = 50.0f;

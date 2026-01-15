@@ -57,7 +57,8 @@ void Game::InitRacingGame()
 	// Crear coche del jugador
 	playerCar = new PlayerCar();
 	playerCar->SetCoordinates(Vector3D(2.0f, 0.0f, 0.0f));
-	playerCar->SetColor(Color(0.1f, 0.8f, 0.2f));
+	// Intentae cargar modelo con materiales
+	playerCar->LoadMaterialModel("NormalCar2.obj", 1.0f); // Escalar para que no sea gigante
 
 	// Configurar nivel inicial
 	currentLevel.ConfigureLevel(1);

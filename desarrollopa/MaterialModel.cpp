@@ -22,3 +22,10 @@ void MaterialModel::Clear()
 {
 	this->triangles.clear();
 }
+
+Solid* MaterialModel::Clone()
+{
+	MaterialModel* copy = new MaterialModel();
+	copy->triangles = this->triangles;
+	return copy;
+}
