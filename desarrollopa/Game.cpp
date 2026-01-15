@@ -24,6 +24,10 @@ void Game::Init() {
 	highScoreManager.LoadScores();
 	
 	InitScenes();
+
+	texFondoMenu = TextureLoader::LoadBMP("texturas/menu_fondo.bmp");
+	texBotonPlay = TextureLoader::LoadBMP("texturas/boton_play.bmp");
+
 	gameState = GameState::MENU;
 }
 
@@ -56,9 +60,29 @@ void Game::InitRacingGame()
 
 	// Crear coche del jugador
 	playerCar = new PlayerCar();
-	playerCar->SetCoordinates(Vector3D(2.0f, 0.0f, 0.0f));
+	playerCar->SetCoordinates(Vector3D(1.0f, 0.0f, 0.0f));
 	// Intentae cargar modelo con materiales
-	playerCar->LoadMaterialModel("NormalCar2.obj", 1.0f); // Escalar para que no sea gigante
+	playerCar->LoadMaterialModel("Car.obj", 0.7f); // Escalar para que no sea gigante
+
+	treeModel = new Tree();
+	treeModel->Load("modelos/Trees.obj", 1.0f);
+
+	// 2. Generar posiciones iniciales a los lados
+	treePositions.clear();
+	srand(time(NULL));
+
+	int numArboles = 30;
+
+	for (int i = 0; i < numArboles; i++) {
+		float z = -250.0f + (rand() % 270);
+		float x = 6.0f + (rand() % 50);
+
+		if (rand() % 2 == 0) {
+			x = -x; 
+		}
+
+		treePositions.push_back(Vector3D(x, 0.0f, z));
+	}
 
 	// Configurar nivel inicial
 	currentLevel.ConfigureLevel(1);
@@ -129,6 +153,30 @@ void Game::UpdateRacingGame(const float& time)
 		float playerSpeed = playerCar->GetCurrentSpeed();
 		road->SetSpeed(playerSpeed);
 
+
+		//Para la generación de árboles
+
+		float speed = playerCar->GetCurrentSpeed();
+
+		for (auto& pos : treePositions) {
+	
+			pos.SetZ(pos.GetZ() + speed * time);
+
+			if (pos.GetZ() > 20.0f) {
+			
+				pos.SetZ(-200.0f - (rand() % 50));
+				float newX = 6.0f + (rand() % 20);
+
+				if (rand() % 2 == 0) {
+					newX = -newX;
+				}
+
+				pos.SetX(newX);
+			}
+		}
+
+
+
 		trafficManager.Update(time, playerCar);
 		gameScene->Update(time, Vector3D());
 
@@ -167,6 +215,7 @@ void Game::Render() {
 
 void Game::RenderMenu()
 {
+	// 1. Configuración de la cámara 2D
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -175,39 +224,56 @@ void Game::RenderMenu()
 	glPushMatrix();
 	glLoadIdentity();
 
+	// 2. Apagar luces y profundidad para dibujar en 2D plano
 	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST); // ¡Importante para que el fondo no tape al botón!
 
-	// Titulo
-	glColor3f(1.0f, 1.0f, 0.0f);
-	std::string title = "JUEGO DE ADELANTAMIENTOS";
-	glRasterPos2i(250, 400);
-	for (char c : title) {
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, c);
-	}
 
-	// Opciones
-	glColor3f(1.0f, 1.0f, 1.0f);
-	std::string opt1 = "Pulsa ENTER para jugar";
-	glRasterPos2i(280, 300);
-	for (char c : opt1) {
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	}
+	glEnable(GL_TEXTURE_2D);
+	glColor3f(1.0f, 1.0f, 1.0f); // Color blanco puro para no teñir la imagen
 
-	std::string opt2 = "Pulsa H para ver puntuaciones";
-	glRasterPos2i(260, 250);
-	for (char c : opt2) {
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	}
+	glBindTexture(GL_TEXTURE_2D, texFondoMenu);
+	glBegin(GL_QUADS);
+	glTexCoord2f(0, 0); glVertex2i(0, 0);
+	glTexCoord2f(1, 0); glVertex2i(800, 0);
+	glTexCoord2f(1, 1); glVertex2i(800, 600);
+	glTexCoord2f(0, 1); glVertex2i(0, 600);
+	glEnd();
 
-	// Controles
-	glColor3f(0.7f, 0.7f, 0.7f);
-	std::string controls = "Controles: ESPACIO = Adelantar";
-	glRasterPos2i(280, 150);
-	for (char c : controls) {
+
+	glBindTexture(GL_TEXTURE_2D, texBotonPlay);
+
+	glBegin(GL_QUADS);
+	// Coordenadas de textura (invertidas en Y a veces según la imagen, prueba así primero)
+	glTexCoord2f(0, 0); glVertex2i(btnX, btnY);
+	glTexCoord2f(1, 0); glVertex2i(btnX + btnW, btnY);
+	glTexCoord2f(1, 1); glVertex2i(btnX + btnW, btnY + btnH);
+	glTexCoord2f(0, 1); glVertex2i(btnX, btnY + btnH);
+	glEnd();
+
+	
+
+	glDisable(GL_TEXTURE_2D); 
+
+	// Usamos color NEGRO porque tu fondo es un cielo claro
+	glColor3f(0.0f, 0.0f, 0.0f);
+
+	std::string help = "Pulsa H para ver puntuaciones";
+
+	// Posición: Centrado horizontalmente (aprox) y abajo
+	glRasterPos2i(311, 105);
+	for (char c : help) {
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, c);
 	}
 
+	//Mismo texto movido a la derecha para simular bold
+	glRasterPos2i(312, 105);
+	for (char c : help) {
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, c);
+	}
+
+
+	// 3. Restaurar estado original
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 
@@ -220,6 +286,31 @@ void Game::RenderMenu()
 void Game::RenderRacingGame()
 {
 	gameScene->Render();
+
+	glDisable(GL_LIGHTING); // Desactivar luces para que el color sea plano y vivo
+	glColor3f(0.13f, 0.55f, 0.13f); // Verde bosque
+	glBegin(GL_QUADS);
+
+	// Un suelo gigante
+	glVertex3f(-100.0f, -10.0f, 50.0f);  // Cerca Izquierda
+	glVertex3f(100.0f, -0.05f, 50.0f);  // Cerca Derecha
+	glVertex3f(100.0f, -0.05f, -200.0f); // Lejos Derecha
+	glVertex3f(-100.0f, -0.05f, -200.0f); // Lejos Izquierda
+	glEnd();
+	glEnable(GL_LIGHTING);
+
+	// --- DIBUJAR ÁRBOLES ---
+	for (auto& pos : treePositions) {
+		// Guardamos la matriz actual
+		glPushMatrix();
+		// Movemos el "pincel" a la posición del árbol
+		glTranslatef(pos.GetX(), pos.GetY(), pos.GetZ());
+		// Dibujamos el modelo
+		treeModel->Render();
+		// Recuperamos la matriz
+		glPopMatrix();
+	}
+
 	playerCar->Render();
 	trafficManager.Render();
 	RenderHUD();
@@ -241,7 +332,7 @@ void Game::RenderHUD()
 	glColor3f(1.0f, 1.0f, 1.0f);
 
 	// Score
-	std::string scoreText = scoreManager.GetScoreText();
+	std::string scoreText = "Puntos: " + std::to_string(scoreManager.GetScore());
 	glRasterPos2i(10, 570);
 	for (char c : scoreText) {
 		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
@@ -496,5 +587,25 @@ void Game::ShowHighScores()
 	gameState = GameState::HIGH_SCORES;
 }
 
-void Game::ProcessMouseClicked(int button, int state, int x, int y) {}
+void Game::ProcessMouseClicked(int button, int state, int x, int y) {
+
+
+	if (gameState == GameState::MENU) {
+		if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+
+
+			int mouseYReal = 600 - y;
+
+			// Comprobar colisión con el botón
+			if (x >= btnX && x <= btnX + btnW &&
+				mouseYReal >= btnY && mouseYReal <= btnY + btnH) {
+
+				StartGame();
+
+			}
+		}
+
+	}
+}
+
 void Game::ProcessMouseMovement(int x, int y) {}

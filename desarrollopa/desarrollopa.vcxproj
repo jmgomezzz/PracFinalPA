@@ -200,9 +200,11 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Teapot.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Toroid.h" />
     <ClInclude Include="TrafficCar.h" />
     <ClInclude Include="TrafficManager.h" />
+    <ClInclude Include="Tree.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Vector3D.h" />

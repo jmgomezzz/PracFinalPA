@@ -12,6 +12,10 @@
 #include "Cylinder.h"
 #include "Road.h"
 
+#include "TextureLoader.h"
+#include "Coordinate.h"
+#include "Tree.h"
+
 // Sistema de carreras
 #include "PlayerCar.h"
 #include "TrafficCar.h"
@@ -69,6 +73,18 @@ private:
 	HighScoreManager highScoreManager;
 	Level currentLevel;
 	Road* road;
+	Tree* treeModel;             // El modelo 3D del árbol
+	vector<Vector3D> treePositions; // Donde está cada árbol
+
+	//Imagenes del Menu
+	GLuint texFondoMenu;
+	GLuint texBotonPlay;
+
+	// Coordenadas del botón (para detectar el clic)
+	int btnX = 300; // Posición X
+	int btnY = 150; // Posición Y
+	int btnW = 200; // Ancho
+	int btnH = 80;  // Alto
 
 	// Metodos privados
 	void InitScenes();

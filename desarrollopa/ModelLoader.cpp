@@ -29,23 +29,37 @@ Vector3D ModelLoader::parseObjLineToVector3D(const string& line) {
 	Vector3D vectorPoint(xCoord, yCoord, zCoord);
 	return vectorPoint * this->GetEscala();
 }
+
 Triangle ModelLoader::parseObjTriangle(const string& line) {
 	char c;
 	int idxVertex0, idxVertex1, idxVertex2;
-	int idxNormal0, idxNormal1, idxNormal2;
+	int idxNormal0 = 0, idxNormal1 = 0, idxNormal2 = 0; // Inicializamos a 0 por seguridad
 
 	istringstream stringStream(line);
-	stringStream >> c;
+	stringStream >> c; 
+
 	stringStream >> idxVertex0 >> c >> c >> idxNormal0;
 	stringStream >> idxVertex1 >> c >> c >> idxNormal1;
 	stringStream >> idxVertex2 >> c >> c >> idxNormal2;
 
-	Vector3D vertex0 = this->verticesArchivo[idxVertex0 - 1];
-	Vector3D vertex1 = this->verticesArchivo[idxVertex1 - 1];
-	Vector3D vertex2 = this->verticesArchivo[idxVertex2 - 1];
-	Vector3D normal0 = this->normalesArchivo[idxNormal0 - 1];
-	Vector3D normal1 = this->normalesArchivo[idxNormal1 - 1];
-	Vector3D normal2 = this->normalesArchivo[idxNormal2 - 1];
+	Vector3D vertex0, vertex1, vertex2;
+	if (idxVertex0 - 1 < this->verticesArchivo.size()) vertex0 = this->verticesArchivo[idxVertex0 - 1];
+	if (idxVertex1 - 1 < this->verticesArchivo.size()) vertex1 = this->verticesArchivo[idxVertex1 - 1];
+	if (idxVertex2 - 1 < this->verticesArchivo.size()) vertex2 = this->verticesArchivo[idxVertex2 - 1];
+
+	Vector3D normal0(0, 1, 0), normal1(0, 1, 0), normal2(0, 1, 0); // Normal por defecto hacia arriba
+
+	if (!this->normalesArchivo.empty() && idxNormal0 > 0 && (idxNormal0 - 1 < this->normalesArchivo.size())) {
+		normal0 = this->normalesArchivo[idxNormal0 - 1];
+	}
+	if (!this->normalesArchivo.empty() && idxNormal1 > 0 && (idxNormal1 - 1 < this->normalesArchivo.size())) {
+		normal1 = this->normalesArchivo[idxNormal1 - 1];
+	}
+	if (!this->normalesArchivo.empty() && idxNormal2 > 0 && (idxNormal2 - 1 < this->normalesArchivo.size())) {
+		normal2 = this->normalesArchivo[idxNormal2 - 1];
+	}
+
+	// Creamos el triángulo con los datos seguros (o los por defecto si falló algo)
 	Triangle parsedTriangle(vertex0, vertex1, vertex2, normal0, normal1, normal2);
 
 	return parsedTriangle;
