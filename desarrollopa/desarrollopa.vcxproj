@@ -139,6 +139,8 @@
     <ClCompile Include="EmmiterConfiguration.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HighScoreManager.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialModel.cpp" />
     <ClCompile Include="MaterialModelLoader.cpp" />
@@ -178,6 +180,8 @@
     <ClInclude Include="EmmiterConfiguration.h" />
     <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HighScoreManager.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialModel.h" />
     <ClInclude Include="MaterialModelLoader.h" />
